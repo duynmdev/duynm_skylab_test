@@ -4,8 +4,8 @@ class QuestionService
     array = [9,1,8,2,7,3,6,4,5,10,13] unless array.present?
 
     {
-      highest_to_lowest: sort_highest_to_lowest(array.dup),
-      lowest_to_highest: sort_lowest_to_highest(array.dup)
+      highest_to_lowest: sort_one_dimensional_array(array, :desc),
+      lowest_to_highest: sort_one_dimensional_array(array, :asc)
     }
   end
 
@@ -42,64 +42,58 @@ class QuestionService
 
   def answer_4 str=""
     str = "zyabcdabcac" unless str.present?
-    arr1 = sort_highest_to_lowest(convert_string_to_arr(str))
-    arr2 = sort_lowest_to_highest(convert_string_to_arr(str))
+    data = count_number_character(convert_string_to_arr(str))
+
+    array_count_charater = convert_to_two_dimensional_array(data)
+
     {
-      highest_to_lowest: count_number_character(arr1),
-      lowest_to_highest: count_number_character(arr2)
+      highest_to_lowest: convert_to_hash(sort_two_dimensional_array(array_count_charater, :asc)),
+      lowest_to_highest: convert_to_hash(sort_two_dimensional_array(array_count_charater, :desc))
     }
   end
 
-  def sort_highest_to_lowest array
+  def sort_one_dimensional_array array, type='asc'
+    _array = array.dup
     is_sorted = true
     while is_sorted do
       is_sorted = false
-      (array.length - 1).times do |index|
-        if array[index] < array[index + 1]
-          array[index], array[index + 1] = swap(array[index], array[index + 1])
+      (_array.length - 1).times do |index|
+        if (type == :asc ? (_array[index] > _array[index + 1]) : (_array[index] < _array[index + 1]))
+          _array[index], _array[index + 1] = swap(_array[index], _array[index + 1])
           is_sorted = true
         end
       end
     end
-    array
+    _array
   end
 
-  def sort_lowest_to_highest array
+  def sort_two_dimensional_array array, type='asc'
+    _array = array.dup
     is_sorted = true
     while is_sorted do
       is_sorted = false
-      (array.length - 1).times do |index|
-        if array[index] > array[index + 1]
-          array[index], array[index + 1] = swap(array[index], array[index + 1])
+      (_array.length - 1).times do |index|
+        if (type == :asc ? (_array[index][1] > _array[index + 1][1]) : (_array[index][1] < _array[index + 1][1]))
+          _array[index], _array[index + 1] = swap(_array[index], _array[index + 1])
           is_sorted = true
+        elsif _array[index][1] == _array[index + 1][1]
+          if (type == :asc ? (_array[index][0] < _array[index + 1][0]) : (_array[index][0] > _array[index + 1][0]))
+            _array[index], _array[index + 1] = swap(_array[index], _array[index + 1])
+            is_sorted = true
+          end
         end
       end
     end
-    array
+    _array
   end
-
 
   def swap item1, item2
     temp = item1
     item1 = item2
     item2 = temp
+
     [item1 , item2]
   end
-
-  # def uniq_element_array array
-  #   _index = 0
-
-  #   for index in 0..array.length - 1
-  #     if array[index] != array[index + 1]
-  #       array[_index] =  array[index]
-  #       _index+= 1
-  #     end
-  #   end
-
-  #   array[_index] = array[array.length - 1] 
-  #   byebug
-  #   byebug
-  # end
 
   def is_in_array?(element, array)
     for i in 0..array.length
@@ -127,7 +121,29 @@ class QuestionService
         1
       end
     end
-    result
+
+    _array = []
+    result.each do |item|
+      _array << item
+    end
+    _array
+  end
+
+  def convert_to_two_dimensional_array hash_data={}
+    two_dimensional_array = []
+    for item in hash_data
+      two_dimensional_array << item
+    end
+
+    two_dimensional_array
+  end
+
+  def convert_to_hash two_dimensional_array
+    hash_data = {}
+    for i in 0..two_dimensional_array.length - 1
+      hash_data["#{two_dimensional_array[i][0]}"] = two_dimensional_array[i][1]
+    end
+    hash_data
   end
 end
 

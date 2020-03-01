@@ -47,6 +47,17 @@ RSpec.describe QuestionService do
   end
 
   describe "/question4/answer" do
+    let(:string_random) {
+      (0...10).map { ('a'..'z').to_a[rand(26)] }.join
+    }
+
+    context "Count the number of the character in a String after that Sort the character by the number from highest to lowest and lowest to highest:" do
+      it "should return hash is sorted" do
+        results = question_service.answer_4(string_random)
+        expect(results[:lowest_to_highest].map{|v, i| v if i == results[:lowest_to_highest].values.max}.compact).to eq(count_and_sort_max(string_random))
+        expect(results[:highest_to_lowest].map{|v, i| v if i == results[:highest_to_lowest].values.min}.compact).to eq(count_and_sort_min(string_random))
+      end
+    end
   end
 
   def question_service
@@ -55,5 +66,29 @@ RSpec.describe QuestionService do
 
   def find_non_repeated_character string
     string.chars.find { |character| string.count(character) == 1 }
+  end
+
+  def count_and_sort_max string
+    array_charaters = string.split("")
+    array_count_charaters = array_charaters.group_by{|i| i}.map{|k,v| [k, v.count] }
+    max_count = array_count_charaters.to_h.values.max
+  
+    _array = array_count_charaters.map do |first_value, second_value|
+      first_value if second_value == max_count
+    end
+
+    _array.compact.sort
+  end
+
+  def count_and_sort_min string
+    array_charaters = string.split("")
+    array_count_charaters = array_charaters.group_by{|i| i}.map{|k,v| [k, v.count] }
+    max_count = array_count_charaters.to_h.values.min
+  
+    _array = array_count_charaters.map do |first_value, second_value|
+      first_value if second_value == max_count
+    end
+
+    _array.compact.sort.reverse
   end
 end
