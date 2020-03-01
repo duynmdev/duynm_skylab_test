@@ -61,3 +61,6 @@ group :production do
 end
 
 gem 'sidekiq', '~> 6.0', '>= 6.0.5'
+gem 'redis', '~> 4.1', '>= 4.1.3'
+gem 'redis-namespace', '~> 1.7'
+gem 'swagger-blocks', '~> 3.0'
