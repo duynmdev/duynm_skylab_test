@@ -1,0 +1,39 @@
+---
+openapi: 3.0.1
+info:
+  title: API
+servers:
+  - url: http://localhost:3000
+
+paths:
+  /api/event_logs:
+    post:
+      summary: Create Event Log
+      parameters:
+        - name: event_name
+          in: path
+          required: true
+          description: Event name
+          schema:
+            type: string
+        - name: timestamp
+          in: path
+          required: true
+          description: Timestamp
+          schema:
+            type: string
+
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_name:
+                  example: "test"
+                timestamp:
+                  example: "2017-10-01 06:00:01"
+      responses: 
+        '201':
+          description: Created
