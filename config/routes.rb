@@ -11,14 +11,8 @@ Rails.application.routes.draw do
     resources :event_logs, only: [:create]
   end
 
-  namespace :questions do
-    get "/questions", to: "application#index"    
-
-    get "/question1/answer", to: "questions1#answer"
-    get "/question2/answer", to: "questions2#answer"
-    get "/question3/answer", to: "questions3#answer"
-    get "/question4/answer", to: "questions4#answer"
-    get "/question5/answer", to: "questions5#answer"
-    get "/question6/answer", to: "questions6#answer"
-  end
+  get "question1/answer", to: "questions#question1"
+  get "question2/answer", to: "questions#question2"
+  get "question3/answer", to: "questions#question3"
+  get "question4/answer", to: "questions#question4"
 end
