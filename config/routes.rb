@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   get "question2/answer", to: "questions#question2"
   get "question3/answer", to: "questions#question3"
   get "question4/answer", to: "questions#question4"
+  get "question5/answer", to: "questions#question5"
+  get "/download", to: "questions#download"
 end

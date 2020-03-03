@@ -15,6 +15,16 @@ class QuestionsController < ApplicationController
     @answer_4 = question_service.answer_4
   end
 
+  def question5
+    ["console", "file", "mail"].each do |output_type|
+      Logger::Base.new(output_type: output_type, data: "Test log for #{output_type.to_s}").process
+    end
+  end
+
+  def download
+    send_file("#{Rails.root}/log/skylab_test_log.log")
+  end
+
   private
     def question_service
       @question_service ||= QuestionService.new
